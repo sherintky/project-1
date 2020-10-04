@@ -1,0 +1,52 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_instance.east_backend" [label = "aws_instance.east_backend", shape = "box"]
+		"[root] aws_instance.east_frontend" [label = "aws_instance.east_frontend", shape = "box"]
+		"[root] aws_instance.west_backend" [label = "aws_instance.west_backend", shape = "box"]
+		"[root] aws_instance.west_frontend" [label = "aws_instance.west_frontend", shape = "box"]
+		"[root] local.default_frontend_name" [label = "local.default_frontend_name", shape = "note"]
+		"[root] local.defualt_backend_name" [label = "local.defualt_backend_name", shape = "note"]
+		"[root] local.some_tags" [label = "local.some_tags", shape = "note"]
+		"[root] local.westbackend_name" [label = "local.westbackend_name", shape = "note"]
+		"[root] local.westfrontend_name" [label = "local.westfrontend_name", shape = "note"]
+		"[root] output.PublicIP_East_Backend" [label = "output.PublicIP_East_Backend", shape = "note"]
+		"[root] output.PublicIP_East_Frontend" [label = "output.PublicIP_East_Frontend", shape = "note"]
+		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] provider.aws.us-west-1" [label = "provider.aws.us-west-1", shape = "diamond"]
+		"[root] var.env-name" [label = "var.env-name", shape = "note"]
+		"[root] var.env-name-2" [label = "var.env-name-2", shape = "note"]
+		"[root] var.multi-region-deployment" [label = "var.multi-region-deployment", shape = "note"]
+		"[root] var.zones_east" [label = "var.zones_east", shape = "note"]
+		"[root] var.zones_west" [label = "var.zones_west", shape = "note"]
+		"[root] aws_instance.east_backend" -> "[root] local.westfrontend_name"
+		"[root] aws_instance.east_backend" -> "[root] provider.aws"
+		"[root] aws_instance.east_backend" -> "[root] var.zones_east"
+		"[root] aws_instance.east_frontend" -> "[root] aws_instance.east_backend"
+		"[root] aws_instance.east_frontend" -> "[root] local.default_frontend_name"
+		"[root] aws_instance.west_backend" -> "[root] local.westbackend_name"
+		"[root] aws_instance.west_backend" -> "[root] provider.aws.us-west-1"
+		"[root] aws_instance.west_backend" -> "[root] var.multi-region-deployment"
+		"[root] aws_instance.west_backend" -> "[root] var.zones_west"
+		"[root] aws_instance.west_frontend" -> "[root] aws_instance.west_backend"
+		"[root] aws_instance.west_frontend" -> "[root] local.some_tags"
+		"[root] local.default_frontend_name" -> "[root] var.env-name"
+		"[root] local.defualt_backend_name" -> "[root] var.env-name"
+		"[root] local.some_tags" -> "[root] local.westfrontend_name"
+		"[root] local.westbackend_name" -> "[root] var.env-name-2"
+		"[root] local.westfrontend_name" -> "[root] var.env-name-2"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_instance.west_frontend"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] local.defualt_backend_name"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.PublicIP_East_Backend"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.PublicIP_East_Frontend"
+		"[root] output.PublicIP_East_Backend" -> "[root] aws_instance.east_backend"
+		"[root] output.PublicIP_East_Frontend" -> "[root] aws_instance.east_frontend"
+		"[root] provider.aws (close)" -> "[root] aws_instance.east_frontend"
+		"[root] provider.aws.us-west-1 (close)" -> "[root] aws_instance.west_frontend"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider.aws (close)"
+		"[root] root" -> "[root] provider.aws.us-west-1 (close)"
+	}
+}
+
